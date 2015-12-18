@@ -66,22 +66,18 @@ public class MainActivity extends AppCompatActivity {
         Observable<HashMap<String, String>> observable = kawaseApi.getCurrency("json", mFromCode, mToCode);
         observable
                 .subscribeOn(Schedulers.newThread())
-                        //以下、バックグラウンドスレッドで実行
-                .map(new Func1<HashMap<String, String>, Double>() {
-                    //HashMap<String, String> → Double の変換
-                    @Override
-                    public Double call(HashMap<String, String> map) {
-                        String value = map.get(mToCode.name());
-                        if (value != null) {
-                            double dValue = Double.parseDouble(value);
-                            storeRealm(dValue);
-                            return dValue;
-                        }
-                        return null;
+                //以下、バックグラウンドスレッドで実行
+                .map(map -> {
+                    String value = map.get(mToCode.name());
+                    if (value != null) {
+                        double dValue = Double.parseDouble(value);
+                        storeRealm(dValue);
+                        return dValue;
                     }
+                    return null;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                        //以下、メインスレッドで実行
+                //以下、メインスレッドで実行
                 .subscribe(new Observer<Double>() {
                     @Override
                     public void onCompleted() {
