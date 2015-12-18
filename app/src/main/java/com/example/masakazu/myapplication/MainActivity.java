@@ -50,7 +50,10 @@ public class MainActivity extends AppCompatActivity {
         kawaseApi.getCurrency("json", mFromCode, new Callback<HashMap<String, String>>() {
             @Override
             public void success(HashMap<String, String> map, Response response) {
-                Log.d("", "");
+                String value = map.get(mToCode.name());
+                if (value != null) {
+                    calc(Double.parseDouble(value));
+                }
             }
 
             @Override
@@ -58,6 +61,14 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("", "");
             }
         });
+    }
+
+    private void calc(double factor) {
+        String fromValue = mFromEdit.getText().toString();
+        if (!fromValue.isEmpty()) {
+            double fromDValue = Double.parseDouble(fromValue);
+            mToText.setText(Double.toString(fromDValue * factor));
+        }
     }
 
 
@@ -75,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.button_calc)
     void onClickCalc() {
-        Toast.makeText(this, "onClickCalc", Toast.LENGTH_SHORT).show();
+        getCurrency();
     }
 
     @Override
