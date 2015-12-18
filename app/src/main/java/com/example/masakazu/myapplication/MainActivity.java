@@ -1,5 +1,6 @@
 package com.example.masakazu.myapplication;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -32,12 +33,14 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.from_unit)
     void onClickFromUnitButton() {
-        Toast.makeText(this, "onClickFromUnitButton", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, CodeChooserActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.to_unit)
     void onClickToUnitButton() {
-        Toast.makeText(this, "onClickToUnitButton", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, CodeChooserActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.button_calc)
